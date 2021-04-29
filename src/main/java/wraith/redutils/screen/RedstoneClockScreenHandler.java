@@ -86,7 +86,7 @@ public class RedstoneClockScreenHandler extends ScreenHandler {
     public boolean onButtonClick(PlayerEntity player, int id) {
         switch (id) {
             case 0:
-                this.tickrate = Math.max(0, this.tickrate - 1);
+                this.tickrate = Math.max(1, this.tickrate - 1);
                 break;
             case 1:
                 ++this.tickrate;
