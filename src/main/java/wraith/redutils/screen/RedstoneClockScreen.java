@@ -23,13 +23,16 @@ public class RedstoneClockScreen extends HandledScreen<ScreenHandler> {
 
     public RedstoneClockScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
-        this.backgroundHeight = 133;
+        this.backgroundHeight = 160;
         this.backgroundWidth = 176;
         this.playerInventoryTitleY = this.backgroundHeight - 94;
         this.titleX += 52;
 
         buttons.add(new Button(61, 19, 13, 13, 176, 0));
         buttons.add(new Button(102, 19, 13, 13, 189, 0));
+
+        buttons.add(new Button(61, 46, 13, 13, 176, 0));
+        buttons.add(new Button(102, 46, 13, 13, 189, 0));
     }
 
     @Override
@@ -55,6 +58,8 @@ public class RedstoneClockScreen extends HandledScreen<ScreenHandler> {
 
         String tickrate = String.valueOf(((RedstoneClockScreenHandler)handler).getTickrate());
         this.textRenderer.draw(matrices, new LiteralText(tickrate), this.x + 80, this.y + 22, 4210752);
+        String ticktime = String.valueOf(((RedstoneClockScreenHandler)handler).getTicktime());
+        this.textRenderer.draw(matrices, new LiteralText(ticktime), this.x + 80, this.y + 49, 4210752);
     }
 
     @Override

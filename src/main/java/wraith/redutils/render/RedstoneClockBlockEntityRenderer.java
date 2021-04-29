@@ -9,7 +9,10 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.util.math.Direction;
 import wraith.redutils.Utils;
+import wraith.redutils.block.RedstoneClockBlock;
 import wraith.redutils.block.RedstoneClockBlockEntity;
 
 public class RedstoneClockBlockEntityRenderer extends BlockEntityRenderer<RedstoneClockBlockEntity> {
@@ -31,8 +34,27 @@ public class RedstoneClockBlockEntityRenderer extends BlockEntityRenderer<Redsto
 
         VertexConsumer vertexConsumer = MODEL_TEXTURE.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid);
 
-        float not_red = entity.getTickrate() < 1 ? 0 : 1f - entity.getTimer() / (float) entity.getTickrate();
-        innerModel.render(matrices, vertexConsumer, light, overlay, 1, not_red, not_red, not_red);
+        matrices.push();
+        Direction direction = entity.getCachedState().get(RedstoneClockBlock.FACING);
+        if (direction == Direction.DOWN) {
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(180));
+            matrices.translate(0F, -1F, -1F);
+        } else if (direction == Direction.SOUTH) {
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(90));
+            matrices.translate(0F, 0F, -1F);
+        } else if (direction == Direction.NORTH) {
+            matrices.multiply(Vector3f.POSITIVE_X.getDegreesQuaternion(270));
+            matrices.translate(0F, -1F, 0F);
+        } else if (direction == Direction.EAST) {
+            matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(270));
+            matrices.translate(-1F, 0F, 0F);
+        } else if (direction == Direction.WEST) {
+            matrices.multiply(Vector3f.POSITIVE_Z.getDegreesQuaternion(90));
+            matrices.translate(0F, -1F, 0F);
+        }
 
+        float color = entity.getTimer() < entity.getTicktime() ? 0F : 1F - ((float)entity.getTimer() / (entity.getTickrate() + entity.getTicktime()));
+        innerModel.render(matrices, vertexConsumer, light, overlay, 1, color, color, color);
+        matrices.pop();
     }
 }

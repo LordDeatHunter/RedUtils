@@ -119,8 +119,8 @@ public class RedstoneClockBlock extends BlockWithEntity implements Waterloggable
         if (!(entity instanceof RedstoneClockBlockEntity)) {
             return 0;
         }
-        int timer = ((RedstoneClockBlockEntity) entity).getTimer();
-        return timer == 0 && state.get(FACING) == direction ? 15 : 0;
+        RedstoneClockBlockEntity redstoneEntity = ((RedstoneClockBlockEntity) entity);
+        return redstoneEntity.getTimer() < redstoneEntity.getTicktime()  && state.get(FACING) == direction ? 15 : 0;
     }
 
     @Override
@@ -129,8 +129,8 @@ public class RedstoneClockBlock extends BlockWithEntity implements Waterloggable
         if (!(entity instanceof RedstoneClockBlockEntity)) {
             return 0;
         }
-        int timer = ((RedstoneClockBlockEntity) entity).getTimer();
-        return timer == 0 && state.get(FACING) == direction ? 15 : 0;
+        RedstoneClockBlockEntity redstoneEntity = ((RedstoneClockBlockEntity) entity);
+        return redstoneEntity.getTimer() < redstoneEntity.getTicktime()  && state.get(FACING) == direction ? 15 : 0;
     }
 
     @Override

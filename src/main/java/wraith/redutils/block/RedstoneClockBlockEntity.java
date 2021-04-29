@@ -23,6 +23,7 @@ public class RedstoneClockBlockEntity extends BlockEntity implements ExtendedScr
 
     private int tickrate = 1;
     private int timer = 0;
+    private int ticktime = 5;
 
     public RedstoneClockBlockEntity() {
         super(BlockEntityRegistry.get("redstone_clock"));
@@ -31,23 +32,27 @@ public class RedstoneClockBlockEntity extends BlockEntity implements ExtendedScr
     @Override
     public void fromClientTag(CompoundTag tag) {
         this.tickrate = tag.getInt("tickrate");
+        this.ticktime = tag.getInt("ticktime");
     }
 
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
         this.tickrate = tag.getInt("tickrate");
+        this.ticktime = tag.getInt("ticktime");
     }
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
         tag.putInt("tickrate", this.tickrate);
+        tag.putInt("ticktime", this.ticktime);
         return super.toTag(tag);
     }
 
     @Override
     public CompoundTag toClientTag(CompoundTag tag) {
         tag.putInt("tickrate", this.tickrate);
+        tag.putInt("ticktime", this.ticktime);
         return tag;
     }
 
@@ -55,6 +60,7 @@ public class RedstoneClockBlockEntity extends BlockEntity implements ExtendedScr
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         CompoundTag tag = new CompoundTag();
         tag.putInt("tickrate", this.tickrate);
+        tag.putInt("ticktime", this.ticktime);
         buf.writeCompoundTag(tag);
     }
 
@@ -71,8 +77,8 @@ public class RedstoneClockBlockEntity extends BlockEntity implements ExtendedScr
 
     @Override
     public void tick() {
-        if (tickrate != 0) {
-            timer = (timer + 1) % tickrate;
+        if (tickrate > 0) {
+            timer = (timer + 1) % (tickrate + ticktime);
             BlockPos offset = pos.offset(getCachedState().get(RedstoneClockBlock.FACING).getOpposite());
             world.updateNeighbor(offset, getCachedState().getBlock(), pos);
         }
@@ -92,6 +98,14 @@ public class RedstoneClockBlockEntity extends BlockEntity implements ExtendedScr
 
     public int getTimer() {
         return this.timer;
+    }
+
+    public void setTicktime(int ticktime) {
+        this.ticktime = ticktime;
+    }
+
+    public int getTicktime() {
+        return this.ticktime;
     }
 
 }

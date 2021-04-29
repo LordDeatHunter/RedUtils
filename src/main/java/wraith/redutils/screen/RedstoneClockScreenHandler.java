@@ -15,10 +15,12 @@ public class RedstoneClockScreenHandler extends ScreenHandler {
 
     private RedstoneClockBlockEntity entity;
     private int tickrate = 0;
+    private int ticktime = 5;
 
     public RedstoneClockScreenHandler(int syncId, PlayerInventory inv, RedstoneClockBlockEntity entity) {
         this(syncId, inv, (PacketByteBuf) null);
         this.tickrate = entity.getTickrate();
+        this.ticktime = entity.getTicktime();
         this.entity = entity;
     }
 
@@ -29,16 +31,17 @@ public class RedstoneClockScreenHandler extends ScreenHandler {
         if (buf != null) {
             CompoundTag tag = buf.readCompoundTag();
             this.tickrate = tag.getInt("tickrate");
+            this.ticktime = tag.getInt("ticktime");
         }
 
         for (int y = 0; y < 3; ++y) {
             for (int x = 0; x < 9; ++x) {
-                this.addSlot(new Slot(playerInventory, x + y * 9 + 9, 8 + x * 18, 51 + y * 18));
+                this.addSlot(new Slot(playerInventory, x + y * 9 + 9, 8 + x * 18, 78 + y * 18));
             }
         }
 
         for (int x = 0; x < 9; ++x) {
-            this.addSlot(new Slot(playerInventory, x, 8 + x * 18, 109));
+            this.addSlot(new Slot(playerInventory, x, 8 + x * 18, 136));
         }
 
     }
@@ -86,16 +89,19 @@ public class RedstoneClockScreenHandler extends ScreenHandler {
     public boolean onButtonClick(PlayerEntity player, int id) {
         switch (id) {
             case 0:
-                this.tickrate = Math.max(1, this.tickrate - 1);
-                break;
             case 1:
-                ++this.tickrate;
+                this.tickrate = Math.max(1, this.tickrate + (id == 0 ? -1 : 1));
+                break;
+            case 2:
+            case 3:
+                this.ticktime = Math.max(1, this.ticktime + (id == 2 ? -1 : 1));
                 break;
             default:
                 RedUtils.LOGGER.warn("How did you do this?");
         }
         if (this.entity != null) {
             this.entity.setTickrate(this.tickrate);
+            this.entity.setTicktime(this.ticktime);
             this.entity.markDirty();
             this.entity.sync();
         }
@@ -104,6 +110,10 @@ public class RedstoneClockScreenHandler extends ScreenHandler {
 
     public int getTickrate() {
         return this.tickrate;
+    }
+
+    public int getTicktime() {
+        return this.ticktime;
     }
 
 }
