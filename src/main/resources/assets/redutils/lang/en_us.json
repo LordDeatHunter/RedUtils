@@ -1,0 +1,13 @@
+{
+  "item.redutils.redstone_configurator": "Redstone Configurator",
+
+  "item.redutils.launch_pad": "Launch Pad",
+  "block.redutils.launch_pad": "Launch Pad",
+
+  "item.redutils.redstone_clock": "Redstone Clock",
+  "block.redutils.redstone_clock": "Redstone Clock",
+
+  "container.redutils.launch_pad": "Launch Pad",
+  "container.redutils.redstone_clock": "Redstone Clock",
+  "itemGroup.redutils.redutils": "Red Utils"
+}

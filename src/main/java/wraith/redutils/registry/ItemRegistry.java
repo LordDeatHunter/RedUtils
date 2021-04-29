@@ -1,0 +1,32 @@
+package wraith.redutils.registry;
+
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.Items;
+import net.minecraft.util.registry.Registry;
+import wraith.redutils.RedUtilsGroups;
+import wraith.redutils.Utils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class ItemRegistry {
+
+    private static final HashMap<String, Item> ITEMS = new HashMap<String, Item>() {{
+        put("launch_pad", new BlockItem(BlockRegistry.get("launch_pad"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("redstone_clock", new BlockItem(BlockRegistry.get("redstone_clock"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("redstone_configurator", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+    }};
+
+    public static void register() {
+        for (Map.Entry<String, Item> entry : ITEMS.entrySet()) {
+            Registry.register(Registry.ITEM, Utils.ID(entry.getKey()), entry.getValue());
+        }
+    }
+
+    public static Item get(String item) {
+        return ITEMS.getOrDefault(item, Items.AIR);
+    }
+
+}

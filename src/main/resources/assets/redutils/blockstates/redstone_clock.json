@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "redutils:block/redstone_clock",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "redutils:block/redstone_clock",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "redutils:block/redstone_clock",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "redutils:block/redstone_clock",
+      "x": 270
+    },
+    "facing=up": {
+      "model": "redutils:block/redstone_clock"
+    },
+    "facing=west": {
+      "model": "redutils:block/redstone_clock",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

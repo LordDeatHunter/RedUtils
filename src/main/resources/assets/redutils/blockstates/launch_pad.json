@@ -1,0 +1,29 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "redutils:block/launch_pad",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "redutils:block/launch_pad",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "redutils:block/launch_pad",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "redutils:block/launch_pad",
+      "x": 270
+    },
+    "facing=up": {
+      "model": "redutils:block/launch_pad"
+    },
+    "facing=west": {
+      "model": "redutils:block/launch_pad",
+      "x": 90,
+      "y": 270
+    }
+  }
+}
