@@ -1,13 +1,11 @@
 package wraith.redutils.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.ItemPlacementContext;
@@ -20,6 +18,7 @@ import net.minecraft.state.property.DirectionProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -71,15 +70,17 @@ public class BlockBreakerBlock extends BlockWithEntity {
         }
         ItemStack stack = ((BlockBreakerBlockEntity) entity).getStack(0);
 
+        boolean isUpgrade = stack.getItem() == ItemRegistry.get("pickaxe_upgrade");
+
         boolean canMine = stack.getItem().canMine(frontBlockState, world, pos, null);
         boolean toolNotRequired = !frontBlockState.isToolRequired();
-        boolean isEffectiveOn = stack.isEffectiveOn(frontBlockState);
+        boolean isEffectiveOn = isUpgrade || stack.isEffectiveOn(frontBlockState);
         boolean mineable = frontBlockState.getHardness(world, frontPos) >= 0;
 
         boolean broken = false;
         if (canMine && mineable && (toolNotRequired || isEffectiveOn)) {
             broken = world.breakBlock(frontPos, false);
-            if (broken && stack.damage(1, Utils.RANDOM, null)) {
+            if (broken && !isUpgrade && stack.damage(1, Utils.RANDOM, null)) {
                 stack.decrement(1);
             }
         }
@@ -95,7 +96,7 @@ public class BlockBreakerBlock extends BlockWithEntity {
                 if (!item.isEmpty()) {
                     ItemEntity drop = new ItemEntity(world, backPos.getX() + 0.5D, backPos.getY() + 0.5D, backPos.getZ() + 0.5D, item);
                     BlockPos velocity = backPos.subtract(pos);
-                    drop.addVelocity(velocity.getX() * 0.5D, velocity.getY() * 0.5D, velocity.getZ() * 0.5D);
+                    drop.setVelocity(velocity.getX() * 0.125D, velocity.getY() * 0.125D, velocity.getZ() * 0.125D);
                     world.spawnEntity(drop);
                 }
             }
@@ -165,6 +166,18 @@ public class BlockBreakerBlock extends BlockWithEntity {
     @Override
     public BlockRenderType getRenderType(BlockState state) {
         return BlockRenderType.MODEL;
+    }
+
+    @Override
+    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.isOf(newState.getBlock())) {
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof Inventory) {
+                ItemScatterer.spawn(world, pos, (Inventory)blockEntity);
+                world.updateComparators(pos, this);
+            }
+            super.onStateReplaced(state, world, pos, newState, moved);
+        }
     }
 
 }

@@ -20,7 +20,7 @@ public class ItemRegistry {
         put("block_placer", new BlockItem(BlockRegistry.get("block_placer"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
 
         put("redstone_configurator", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
-        put("pickaxe_upgrade", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("pickaxe_upgrade", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS).maxCount(1)));
     }};
 
     public static void register() {

@@ -9,6 +9,7 @@ import net.minecraft.item.PickaxeItem;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import wraith.redutils.registry.CustomScreenHandlerRegistry;
+import wraith.redutils.registry.ItemRegistry;
 
 public class BlockBreakerScreenHandler extends ScreenHandler {
 
@@ -25,7 +26,7 @@ public class BlockBreakerScreenHandler extends ScreenHandler {
         this.addSlot(new Slot(inventory, 0, 80, 30){
             @Override
             public boolean canInsert(ItemStack stack) {
-                return stack.getItem() instanceof PickaxeItem;
+                return stack.getItem() instanceof PickaxeItem || stack.getItem() == ItemRegistry.get("pickaxe_upgrade");
             }
         });
 
