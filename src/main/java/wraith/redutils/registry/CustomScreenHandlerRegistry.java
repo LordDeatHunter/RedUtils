@@ -4,10 +4,7 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import wraith.redutils.Utils;
-import wraith.redutils.screen.BlockBreakerScreenHandler;
-import wraith.redutils.screen.BlockPlacerScreenHandler;
-import wraith.redutils.screen.LaunchPadScreenHandler;
-import wraith.redutils.screen.RedstoneClockScreenHandler;
+import wraith.redutils.screen.*;
 
 import java.util.HashMap;
 
@@ -20,6 +17,7 @@ public class CustomScreenHandlerRegistry {
         SCREEN_HANDLERS.put("redstone_clock", ScreenHandlerRegistry.registerExtended(Utils.ID("redstone_clock"), RedstoneClockScreenHandler::new));
         SCREEN_HANDLERS.put("block_breaker", ScreenHandlerRegistry.registerSimple(Utils.ID("block_breaker"), BlockBreakerScreenHandler::new));
         SCREEN_HANDLERS.put("block_placer", ScreenHandlerRegistry.registerSimple(Utils.ID("block_placer"), BlockPlacerScreenHandler::new));
+        SCREEN_HANDLERS.put("item_collector", ScreenHandlerRegistry.registerExtended(Utils.ID("item_collector"), ItemCollectorScreenHandler::new));
     }
 
     public static ScreenHandlerType<?> get(String id) {

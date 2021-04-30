@@ -75,7 +75,9 @@ public class BlockPlacerBlockEntity extends BlockEntity implements InventoryImpl
     @Override
     public void markDirty() {
         super.markDirty();
-        sync();
+        if (!world.isClient) {
+            sync();
+        }
     }
 
 }

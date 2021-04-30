@@ -7,10 +7,7 @@ import net.minecraft.block.Material;
 import net.minecraft.block.MaterialColor;
 import net.minecraft.util.registry.Registry;
 import wraith.redutils.Utils;
-import wraith.redutils.block.BlockBreakerBlock;
-import wraith.redutils.block.BlockPlacerBlock;
-import wraith.redutils.block.LaunchPadBlock;
-import wraith.redutils.block.RedstoneClockBlock;
+import wraith.redutils.block.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +19,7 @@ public class BlockRegistry {
         put("redstone_clock", new RedstoneClockBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.RED).strength(5f, 5f)));
         put("block_breaker", new BlockBreakerBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.WHITE).strength(5f, 5f)));
         put("block_placer", new BlockPlacerBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.WHITE).strength(5f, 5f)));
+        put("item_collector", new ItemCollectorBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.WHITE).strength(5f, 5f)));
     }};
 
     public static void register() {

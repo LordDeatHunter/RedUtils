@@ -18,6 +18,7 @@ public class ItemRegistry {
         put("redstone_clock", new BlockItem(BlockRegistry.get("redstone_clock"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
         put("block_breaker", new BlockItem(BlockRegistry.get("block_breaker"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
         put("block_placer", new BlockItem(BlockRegistry.get("block_placer"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("item_collector", new BlockItem(BlockRegistry.get("item_collector"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
 
         put("redstone_configurator", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
         put("pickaxe_upgrade", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS).maxCount(1)));

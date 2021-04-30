@@ -14,11 +14,14 @@
   "item.redutils.block_placer": "Block Placer",
   "block.redutils.block_placer": "Block Placer",
 
+  "item.redutils.item_collector": "Item Collector",
+  "block.redutils.item_collector": "Item Collector",
 
   "container.redutils.launch_pad": "Launch Pad",
   "container.redutils.redstone_clock": "Redstone Clock",
   "container.redutils.block_breaker": "Block Breaker",
   "container.redutils.block_placer": "Block Placer",
+  "container.redutils.item_collector": "Item Collector",
 
   "itemGroup.redutils.redutils": "Red Utils"
 }

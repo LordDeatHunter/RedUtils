@@ -3,10 +3,7 @@ package wraith.redutils.registry;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.registry.Registry;
 import wraith.redutils.Utils;
-import wraith.redutils.block.BlockBreakerBlockEntity;
-import wraith.redutils.block.BlockPlacerBlockEntity;
-import wraith.redutils.block.LaunchPadBlockEntity;
-import wraith.redutils.block.RedstoneClockBlockEntity;
+import wraith.redutils.block.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +17,7 @@ public class BlockEntityRegistry {
         put("redstone_clock", BlockEntityType.Builder.create(RedstoneClockBlockEntity::new, BlockRegistry.get("redstone_clock")).build(null));
         put("block_breaker", BlockEntityType.Builder.create(BlockBreakerBlockEntity::new, BlockRegistry.get("block_breaker")).build(null));
         put("block_placer", BlockEntityType.Builder.create(BlockPlacerBlockEntity::new, BlockRegistry.get("block_placer")).build(null));
+        put("item_collector", BlockEntityType.Builder.create(ItemCollectorBlockEntity::new, BlockRegistry.get("item_collector")).build(null));
     }};
 
     public static void register() {
