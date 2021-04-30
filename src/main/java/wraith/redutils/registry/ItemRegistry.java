@@ -16,7 +16,11 @@ public class ItemRegistry {
     private static final HashMap<String, Item> ITEMS = new HashMap<String, Item>() {{
         put("launch_pad", new BlockItem(BlockRegistry.get("launch_pad"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
         put("redstone_clock", new BlockItem(BlockRegistry.get("redstone_clock"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("block_breaker", new BlockItem(BlockRegistry.get("block_breaker"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("block_placer", new BlockItem(BlockRegistry.get("block_placer"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+
         put("redstone_configurator", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("pickaxe_upgrade", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
     }};
 
     public static void register() {

@@ -1,0 +1,27 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "redutils:block/block_breaker",
+      "x": 90
+    },
+    "facing=east": {
+      "model": "redutils:block/block_breaker",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "redutils:block/block_breaker"
+    },
+    "facing=south": {
+      "model": "redutils:block/block_breaker",
+      "y": 180
+    },
+    "facing=up": {
+      "model": "redutils:block/block_breaker",
+      "x": 270
+    },
+    "facing=west": {
+      "model": "redutils:block/block_breaker",
+      "y": 270
+    }
+  }
+}

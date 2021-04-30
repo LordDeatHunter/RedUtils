@@ -93,7 +93,9 @@ public class RedstoneClockScreen extends HandledScreen<ScreenHandler> {
             return false;
         }
 
-        if (!(mouseX >= this.x + 58 && mouseY >= this.y + 16 && mouseX <= this.x + 117 && mouseY <= this.y + 34)) {
+        if (mouseX >= this.x + 58 && mouseY >= this.y + 43 && mouseX <= this.x + 117 && mouseY <= this.y + 61) {
+            val += 2;
+        } else if (!(mouseX >= this.x + 58 && mouseY >= this.y + 16 && mouseX <= this.x + 117 && mouseY <= this.y + 34)) {
             return false;
         }
 

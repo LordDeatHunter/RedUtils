@@ -44,7 +44,7 @@ public class LaunchPadBlock extends BlockWithEntity implements Waterloggable {
 
     public LaunchPadBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(FACING, Direction.DOWN).with(WATERLOGGED, false));
+        this.setDefaultState(this.getDefaultState().with(FACING, Direction.UP).with(WATERLOGGED, false));
     }
 
     @Override
@@ -155,15 +155,16 @@ public class LaunchPadBlock extends BlockWithEntity implements Waterloggable {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (world.isClient) {
-            return ActionResult.CONSUME;
+            return ActionResult.FAIL;
         }
         if (player.getStackInHand(hand).getItem() == ItemRegistry.get("redstone_configurator")) {
             NamedScreenHandlerFactory factory = state.createScreenHandlerFactory(world, pos);
             if (factory != null) {
                 player.openHandledScreen(factory);
+                return ActionResult.CONSUME;
             }
         }
-        return ActionResult.CONSUME;
+        return ActionResult.FAIL;
     }
 
     @Override
