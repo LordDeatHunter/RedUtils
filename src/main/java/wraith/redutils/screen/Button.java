@@ -9,7 +9,7 @@ public class Button {
     private int height;
     private int width;
 
-    public Button(int x, int y, int height, int width, int u, int v) {
+    public Button(int x, int y, int width, int height, int u, int v) {
         this.x = x;
         this.y = y;
         this.u = u;

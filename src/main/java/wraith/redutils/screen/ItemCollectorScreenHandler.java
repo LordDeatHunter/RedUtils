@@ -14,9 +14,9 @@ import wraith.redutils.registry.CustomScreenHandlerRegistry;
 
 public class ItemCollectorScreenHandler extends ScreenHandler {
 
-    private float xRadius = 0;
-    private float yRadius = 0;
-    private float zRadius = 0;
+    private int xRadius = 0;
+    private int yRadius = 0;
+    private int zRadius = 0;
     private ItemCollectorBlockEntity entity;
 
     public ItemCollectorScreenHandler(int syncId, PlayerInventory inv, ItemCollectorBlockEntity entity) {
@@ -32,9 +32,9 @@ public class ItemCollectorScreenHandler extends ScreenHandler {
 
         if (buf != null) {
             CompoundTag tag = buf.readCompoundTag();
-            this.xRadius = tag.getFloat("xRadius");
-            this.yRadius = tag.getFloat("yRadius");
-            this.zRadius = tag.getFloat("zRadius");
+            this.xRadius = tag.getInt("xRadius");
+            this.yRadius = tag.getInt("yRadius");
+            this.zRadius = tag.getInt("zRadius");
         }
         this.entity = null;
 
@@ -94,13 +94,13 @@ public class ItemCollectorScreenHandler extends ScreenHandler {
         int button = id / 2;
         switch (button) {
             case 0:
-                this.xRadius = MathHelper.clamp(this.xRadius + (id % 2 == 0 ? -1 : 1), 1, 16);
+                this.xRadius = MathHelper.clamp(this.xRadius + (id % 2 == 0 ? -1 : 1), 1, 8);
                 break;
             case 1:
-                this.yRadius = MathHelper.clamp(this.yRadius + (id % 2 == 0 ? -1 : 1), 1, 16);
+                this.yRadius = MathHelper.clamp(this.yRadius + (id % 2 == 0 ? -1 : 1), 1, 8);
                 break;
             case 2:
-                this.zRadius = MathHelper.clamp(this.zRadius + (id % 2 == 0 ? -1 : 1), 1, 16);
+                this.zRadius = MathHelper.clamp(this.zRadius + (id % 2 == 0 ? -1 : 1), 1, 8);
                 break;
             default:
                 RedUtils.LOGGER.warn("How did you do this?");
@@ -115,15 +115,15 @@ public class ItemCollectorScreenHandler extends ScreenHandler {
         return super.onButtonClick(player, id);
     }
 
-    public float getxRadius() {
+    public int getxRadius() {
         return this.xRadius;
     }
 
-    public float getyRadius() {
+    public int getyRadius() {
         return this.yRadius;
     }
 
-    public float getzRadius() {
+    public int getzRadius() {
         return this.zRadius;
     }
 

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "redutils:block/entity_detector"
+    }
+  }
+}

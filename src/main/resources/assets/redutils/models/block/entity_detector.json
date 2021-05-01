@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "particle": "redutils:block/entity_detector_side",
+    "north": "redutils:block/entity_detector_side",
+    "south": "redutils:block/entity_detector_side",
+    "east": "redutils:block/entity_detector_side",
+    "west": "redutils:block/entity_detector_side",
+    "up": "redutils:block/entity_detector_top",
+    "down": "redutils:block/entity_detector_top"
+  }
+}

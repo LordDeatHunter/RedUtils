@@ -26,7 +26,6 @@ public class LaunchPadScreen extends HandledScreen<ScreenHandler> {
         this.backgroundWidth = 176;
         this.backgroundHeight = 182;
         this.playerInventoryTitleY = this.backgroundHeight - 94;
-        this.titleX += 52;
 
         buttons.add(new Button(61, 19, 13, 13, 176, 0));
         buttons.add(new Button(102, 19, 13, 13, 189, 0));
@@ -54,9 +53,9 @@ public class LaunchPadScreen extends HandledScreen<ScreenHandler> {
         for (Button button : buttons) {
             int v = button.getV();
             if (button.isInBounds(mouseX - this.x, mouseY - this.y)) {
-                v = button.getHeight() * (mouseClicked ? 1 : 2);
+                v += button.getHeight() * (mouseClicked ? 1 : 2);
             }
-            this.drawTexture(matrices, this.x + button.getX(), this. y + button.getY(), button.getU(), v, button.getWidth(), button.getWidth());
+            this.drawTexture(matrices, this.x + button.getX(), this. y + button.getY(), button.getU(), v, button.getWidth(), button.getHeight());
         }
         int xAmount = (int) ((LaunchPadScreenHandler)handler).getxAmount();
         int yAmount = (int) ((LaunchPadScreenHandler)handler).getyAmount();

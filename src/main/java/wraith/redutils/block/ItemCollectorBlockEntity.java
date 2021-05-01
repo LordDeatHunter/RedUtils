@@ -30,9 +30,9 @@ import java.util.List;
 
 public class ItemCollectorBlockEntity extends BlockEntity implements ExtendedScreenHandlerFactory, BlockEntityClientSerializable, Tickable {
 
-    private float xRadius = 3;
-    private float yRadius = 3;
-    private float zRadius = 3;
+    private int xRadius = 3;
+    private int yRadius = 3;
+    private int zRadius = 3;
     private int timer = 0;
     private int cooldown = 10;
 
@@ -43,49 +43,49 @@ public class ItemCollectorBlockEntity extends BlockEntity implements ExtendedScr
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
         super.fromTag(state, tag);
-        this.xRadius = tag.getFloat("xRadius");
-        this.yRadius = tag.getFloat("yRadius");
-        this.zRadius = tag.getFloat("zRadius");
+        this.xRadius = tag.getInt("xRadius");
+        this.yRadius = tag.getInt("yRadius");
+        this.zRadius = tag.getInt("zRadius");
     }
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
-        tag.putFloat("xAmount", this.xRadius);
-        tag.putFloat("yAmount", this.yRadius);
-        tag.putFloat("zAmount", this.zRadius);
+        tag.putInt("xAmount", this.xRadius);
+        tag.putInt("yAmount", this.yRadius);
+        tag.putInt("zAmount", this.zRadius);
         return super.toTag(tag);
     }
 
-    public float getxRadius() {
+    public int getxRadius() {
         return xRadius;
     }
 
-    public void setxRadius(float xRadius) {
+    public void setxRadius(int xRadius) {
         this.xRadius = xRadius;
     }
 
-    public float getyRadius() {
+    public int getyRadius() {
         return yRadius;
     }
 
-    public void setyRadius(float yRadius) {
+    public void setyRadius(int yRadius) {
         this.yRadius = yRadius;
     }
 
-    public float getzRadius() {
+    public int getzRadius() {
         return zRadius;
     }
 
-    public void setzRadius(float zRadius) {
+    public void setzRadius(int zRadius) {
         this.zRadius = zRadius;
     }
 
     @Override
     public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
         CompoundTag tag = new CompoundTag();
-        tag.putFloat("xRadius", xRadius);
-        tag.putFloat("yRadius", yRadius);
-        tag.putFloat("zRadius", zRadius);
+        tag.putInt("xRadius", xRadius);
+        tag.putInt("yRadius", yRadius);
+        tag.putInt("zRadius", zRadius);
         buf.writeCompoundTag(tag);
     }
 
@@ -101,16 +101,16 @@ public class ItemCollectorBlockEntity extends BlockEntity implements ExtendedScr
 
     @Override
     public void fromClientTag(CompoundTag tag) {
-        this.xRadius = tag.getFloat("xRadius");
-        this.yRadius = tag.getFloat("yRadius");
-        this.zRadius = tag.getFloat("zRadius");
+        this.xRadius = tag.getInt("xRadius");
+        this.yRadius = tag.getInt("yRadius");
+        this.zRadius = tag.getInt("zRadius");
     }
 
     @Override
     public CompoundTag toClientTag(CompoundTag tag) {
-        tag.putFloat("xRadius", this.xRadius);
-        tag.putFloat("yRadius", this.yRadius);
-        tag.putFloat("zRadius", this.zRadius);
+        tag.putInt("xRadius", this.xRadius);
+        tag.putInt("yRadius", this.yRadius);
+        tag.putInt("zRadius", this.zRadius);
         return tag;
     }
 

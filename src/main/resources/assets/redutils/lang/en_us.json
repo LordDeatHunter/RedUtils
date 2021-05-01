@@ -17,11 +17,19 @@
   "item.redutils.item_collector": "Item Collector",
   "block.redutils.item_collector": "Item Collector",
 
+  "item.redutils.entity_detector": "Entity Detector",
+  "block.redutils.entity_detector": "Entity Detector",
+
+  "item.redutils.player_detector": "Player Detector",
+  "block.redutils.player_detector": "Player Detector",
+
   "container.redutils.launch_pad": "Launch Pad",
   "container.redutils.redstone_clock": "Redstone Clock",
   "container.redutils.block_breaker": "Block Breaker",
   "container.redutils.block_placer": "Block Placer",
   "container.redutils.item_collector": "Item Collector",
+  "container.redutils.entity_detector": "Entity Detector",
+  "container.redutils.player_detector": "Player Detector",
 
   "itemGroup.redutils.redutils": "Red Utils"
 }
