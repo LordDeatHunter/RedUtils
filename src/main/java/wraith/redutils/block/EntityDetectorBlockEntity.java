@@ -173,6 +173,7 @@ public class EntityDetectorBlockEntity extends BlockEntity implements ExtendedSc
         for (String entityID : this.entities) {
             if (!world.getEntitiesByType(Registry.ENTITY_TYPE.get(new Identifier(entityID)), box, (entity) -> true).isEmpty()) {
                 inRange = true;
+                break;
             }
         }
         if (inRange && !getCachedState().get(EntityDetectorBlock.POWERED)) {

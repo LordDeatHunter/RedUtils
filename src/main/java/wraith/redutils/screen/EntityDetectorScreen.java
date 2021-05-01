@@ -76,7 +76,8 @@ public class EntityDetectorScreen extends HandledScreen<ScreenHandler> {
             return;
         }
         this.nameInputField.tick();
-        if (Registry.ENTITY_TYPE.containsId(new Identifier(this.nameInputField.getText()))) {
+        Identifier id = Identifier.tryParse(this.nameInputField.getText());
+        if (id != null && Registry.ENTITY_TYPE.containsId(id)) {
             this.nameInputField.setEditableColor(0x00AE00);
         } else {
             this.nameInputField.setEditableColor(0xAE0000);
@@ -109,9 +110,9 @@ public class EntityDetectorScreen extends HandledScreen<ScreenHandler> {
             int n = this.scrollOffset + 3;
             this.renderForgetButtons(matrices, mouseX, mouseY, x + 25, y + 49);
             this.renderAddButton(matrices, mouseX, mouseY);
-            this.nameInputField.render(matrices, mouseX, mouseY, delta);
             this.renderEntityBackground(matrices, mouseX, mouseY, l, m, n);
-
+            this.nameInputField.render(matrices, mouseX, mouseY, delta);
+            this.renderEntityTooltip(matrices, mouseX, mouseY, l, m, n);
         } else {
             int v = previousPageButton.getV();
             if (previousPageButton.isInBounds(mouseX - this.x, mouseY - this.y)) {
@@ -210,7 +211,8 @@ public class EntityDetectorScreen extends HandledScreen<ScreenHandler> {
                 switchPage();
             } else {
                 if (this.addEntityButton.isInBounds((int) mouseX - this.x, (int) mouseY - this.y)) {
-                    if (Registry.ENTITY_TYPE.containsId(new Identifier(this.nameInputField.getText()))) {
+                    Identifier id = Identifier.tryParse(this.nameInputField.getText());
+                    if (id != null && Registry.ENTITY_TYPE.containsId(new Identifier(this.nameInputField.getText()))) {
                         MinecraftClient.getInstance().getSoundManager().play(PositionedSoundInstance.master(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                         ((EntityDetectorScreenHandler) handler).addEntity(this.nameInputField.getText());
                         PacketByteBuf data = new PacketByteBuf(Unpooled.buffer());
@@ -366,6 +368,17 @@ public class EntityDetectorScreen extends HandledScreen<ScreenHandler> {
                 s += 36;
             }
             this.drawTexture(matrixStack, k, r - 1, 0, s, 101, 18);
+        }
+    }
+
+    protected void renderEntityTooltip(MatrixStack matrixStack, int mouseX, int mouseY, int k, int l, int m) {
+        for(int n = this.scrollOffset; n < m && n < getEntityCount(); ++n) {
+            int o = n - this.scrollOffset;
+            int r = l + o * 18 + 2;
+            int s = this.backgroundHeight;
+            if (mouseX >= k && mouseY >= r && mouseX < k + 101 && mouseY < r + 18) {
+                s += 36;
+            }
             String entityName = ((EntityDetectorScreenHandler)handler).getEntities().get(n);
             String trimmedEntityName = this.textRenderer.trimToWidth(entityName, 95);
             this.textRenderer.draw(matrixStack, trimmedEntityName, k + 5f, r - 1 + 5f, 0x161616);

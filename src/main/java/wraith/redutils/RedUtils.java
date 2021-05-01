@@ -10,6 +10,7 @@ import wraith.redutils.registry.BlockRegistry;
 import wraith.redutils.registry.CustomScreenHandlerRegistry;
 import wraith.redutils.registry.ItemRegistry;
 import wraith.redutils.screen.EntityDetectorScreenHandler;
+import wraith.redutils.screen.PlayerDetectorScreenHandler;
 
 public class RedUtils implements ModInitializer {
 
@@ -37,6 +38,13 @@ public class RedUtils implements ModInitializer {
             }
             CompoundTag tag = data.readCompoundTag();
             ((EntityDetectorScreenHandler)player.currentScreenHandler).addEntity(tag.getString("entity_id"));
+        });
+        ServerPlayNetworking.registerGlobalReceiver(Utils.ID("player_detector.rename"), (server, player, networkHandler, data, sender) -> {
+            if (!(player.currentScreenHandler instanceof PlayerDetectorScreenHandler)) {
+                return;
+            }
+            CompoundTag tag = data.readCompoundTag();
+            ((PlayerDetectorScreenHandler)player.currentScreenHandler).addPlayername(tag.getString("playername"));
         });
     }
 

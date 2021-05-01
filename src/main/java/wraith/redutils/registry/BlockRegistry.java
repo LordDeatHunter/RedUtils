@@ -21,6 +21,7 @@ public class BlockRegistry {
         put("block_placer", new BlockPlacerBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.WHITE).strength(5f, 5f)));
         put("item_collector", new ItemCollectorBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.WHITE).strength(5f, 5f)));
         put("entity_detector", new EntityDetectorBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.WHITE).strength(5f, 5f)));
+        put("player_detector", new PlayerDetectorBlock(FabricBlockSettings.of(Material.METAL, MaterialColor.WHITE).strength(5f, 5f)));
     }};
 
     public static void register() {

@@ -20,6 +20,7 @@ public class ItemRegistry {
         put("block_placer", new BlockItem(BlockRegistry.get("block_placer"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
         put("item_collector", new BlockItem(BlockRegistry.get("item_collector"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
         put("entity_detector", new BlockItem(BlockRegistry.get("entity_detector"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
+        put("player_detector", new BlockItem(BlockRegistry.get("player_detector"), new FabricItemSettings().group(RedUtilsGroups.RED_UTILS)));
 
         put("redstone_configurator", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS).maxCount(1)));
         put("pickaxe_upgrade", new Item(new FabricItemSettings().group(RedUtilsGroups.RED_UTILS).maxCount(1)));

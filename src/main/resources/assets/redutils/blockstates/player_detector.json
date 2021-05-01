@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "redutils:block/entity_detector"
+      "model": "redutils:block/player_detector"
     }
   }
 }

@@ -12,6 +12,7 @@ public class CustomScreenRegistry {
         ScreenRegistry.register(CustomScreenHandlerRegistry.get("block_placer"), BlockPlacerScreen::new);
         ScreenRegistry.register(CustomScreenHandlerRegistry.get("item_collector"), ItemCollectorScreen::new);
         ScreenRegistry.register(CustomScreenHandlerRegistry.get("entity_detector"), EntityDetectorScreen::new);
+        ScreenRegistry.register(CustomScreenHandlerRegistry.get("player_detector"), PlayerDetectorScreen::new);
     }
 
 }
