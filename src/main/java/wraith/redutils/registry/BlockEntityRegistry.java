@@ -20,6 +20,7 @@ public class BlockEntityRegistry {
         put("item_collector", BlockEntityType.Builder.create(ItemCollectorBlockEntity::new, BlockRegistry.get("item_collector")).build(null));
         put("entity_detector", BlockEntityType.Builder.create(EntityDetectorBlockEntity::new, BlockRegistry.get("entity_detector")).build(null));
         put("player_detector", BlockEntityType.Builder.create(PlayerDetectorBlockEntity::new, BlockRegistry.get("player_detector")).build(null));
+        put("item_user", BlockEntityType.Builder.create(ItemUserBlockEntity::new, BlockRegistry.get("item_user")).build(null));
     }};
 
     public static void register() {

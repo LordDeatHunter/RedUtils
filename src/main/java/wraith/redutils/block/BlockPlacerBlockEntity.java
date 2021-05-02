@@ -72,12 +72,4 @@ public class BlockPlacerBlockEntity extends BlockEntity implements InventoryImpl
         return tag;
     }
 
-    @Override
-    public void markDirty() {
-        super.markDirty();
-        if (!world.isClient) {
-            sync();
-        }
-    }
-
 }

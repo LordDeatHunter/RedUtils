@@ -23,6 +23,9 @@
   "item.redutils.player_detector": "Player Detector",
   "block.redutils.player_detector": "Player Detector",
 
+  "item.redutils.item_user": "Item User",
+  "block.redutils.item_user": "Item User",
+
   "container.redutils.launch_pad": "Launch Pad",
   "container.redutils.redstone_clock": "Redstone Clock",
   "container.redutils.block_breaker": "Block Breaker",
@@ -30,6 +33,11 @@
   "container.redutils.item_collector": "Item Collector",
   "container.redutils.entity_detector": "Entity Detector",
   "container.redutils.player_detector": "Player Detector",
+  "container.redutils.item_user": "Item User",
 
-  "itemGroup.redutils.redutils": "Red Utils"
+  "itemGroup.redutils.redutils": "Red Utils",
+
+  "redutils.item_user.use_on_block": "Use on block",
+  "redutils.player_detector.rename": "Entity",
+  "redutils.entity_detector.rename": "Playername"
 }

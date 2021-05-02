@@ -1,5 +1,7 @@
 package wraith.redutils.block;
 
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,7 +9,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.LiteralText;
@@ -18,12 +20,13 @@ import wraith.redutils.InventoryImpl;
 import wraith.redutils.RedUtils;
 import wraith.redutils.Utils;
 import wraith.redutils.registry.BlockEntityRegistry;
-import wraith.redutils.screen.BlockBreakerScreenHandler;
+import wraith.redutils.screen.ItemUserScreenHandler;
 
-public class BlockBreakerBlockEntity extends BlockEntity implements InventoryImpl, NamedScreenHandlerFactory {
+public class ItemUserBlockEntity extends BlockEntity implements InventoryImpl, ExtendedScreenHandlerFactory, BlockEntityClientSerializable {
 
     private DefaultedList<ItemStack> items = DefaultedList.ofSize(1, ItemStack.EMPTY);
     private ServerPlayerEntity player = null;
+    private boolean useOnBlock = false;
 
     public PlayerEntity getPlayer() {
         if (player == null) {
@@ -32,13 +35,13 @@ public class BlockBreakerBlockEntity extends BlockEntity implements InventoryImp
         return player;
     }
 
-    public BlockBreakerBlockEntity() {
-        super(BlockEntityRegistry.get("block_breaker"));
+    public ItemUserBlockEntity() {
+        super(BlockEntityRegistry.get("item_user"));
     }
 
     public void setPlacer() {
         this.player = Utils.getFakePlayer(world, pos, getCachedState());
-        this.player.setCustomName(new LiteralText("redutils:block_breaker"));
+        this.player.setCustomName(new LiteralText("redutils:item_user"));
         this.player.setCustomNameVisible(false);
     }
 
@@ -54,24 +57,55 @@ public class BlockBreakerBlockEntity extends BlockEntity implements InventoryImp
 
     @Override
     public Text getDisplayName() {
-        return new TranslatableText("container." + RedUtils.MOD_ID + ".block_breaker");
+        return new TranslatableText("container." + RedUtils.MOD_ID + ".item_user");
     }
 
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new BlockBreakerScreenHandler(syncId, inv, this);
+        return new ItemUserScreenHandler(syncId, inv, this);
     }
-
     @Override
     public void fromTag(BlockState state, CompoundTag tag) {
+        this.items.clear();
+        this.useOnBlock = tag.getBoolean("use_on_block");
         super.fromTag(state, tag);
         Inventories.fromTag(tag, this.items);
     }
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
+        tag.putBoolean("use_on_block", this.useOnBlock);
         Inventories.toTag(tag, this.items);
         return super.toTag(tag);
+    }
+
+    @Override
+    public void fromClientTag(CompoundTag tag) {
+        this.items.clear();
+        this.useOnBlock = tag.getBoolean("use_on_block");
+        Inventories.fromTag(tag, this.items);
+    }
+
+    @Override
+    public CompoundTag toClientTag(CompoundTag tag) {
+        tag.putBoolean("use_on_block", this.useOnBlock);
+        Inventories.toTag(tag, this.items);
+        return tag;
+    }
+
+    public void toggleUseOnBlock() {
+        this.useOnBlock = !this.useOnBlock;
+    }
+
+    public boolean shouldUseOnBlock() {
+        return useOnBlock;
+    }
+
+    @Override
+    public void writeScreenOpeningData(ServerPlayerEntity player, PacketByteBuf buf) {
+        CompoundTag tag = new CompoundTag();
+        tag.putBoolean("use_on_block", this.useOnBlock);
+        buf.writeCompoundTag(tag);
     }
 
 }

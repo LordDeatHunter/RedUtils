@@ -4,6 +4,8 @@
   "package": "wraith.redutils.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BlockMixin",
+    "ServerPlayerEntityMixin",
     "SlotAccessor"
   ],
   "client": [

@@ -6,32 +6,48 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PickaxeItem;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import wraith.redutils.block.ItemUserBlockEntity;
 import wraith.redutils.registry.CustomScreenHandlerRegistry;
 import wraith.redutils.registry.ItemRegistry;
 
-public class BlockBreakerScreenHandler extends ScreenHandler {
+public class ItemUserScreenHandler extends ScreenHandler {
 
     private Inventory inventory;
+    private ItemUserBlockEntity entity;
+    private boolean useOnBlock = false;
 
-    public BlockBreakerScreenHandler(int syncId, PlayerInventory inv) {
-        this(syncId, inv, new SimpleInventory(1));
+    public ItemUserScreenHandler(int syncId, PlayerInventory inv, ItemUserBlockEntity entity) {
+        this(syncId, inv, null, entity);
+        this.entity = entity;
     }
 
-    public BlockBreakerScreenHandler(int syncId, PlayerInventory inv, Inventory inventory) {
-        super(CustomScreenHandlerRegistry.get("block_breaker"), syncId);
+    public ItemUserScreenHandler(int syncId, PlayerInventory inv, PacketByteBuf buf) {
+        this(syncId, inv, buf, new SimpleInventory(1));
+    }
+
+    public ItemUserScreenHandler(int syncId, PlayerInventory inv, PacketByteBuf buf, Inventory inventory) {
+        super(CustomScreenHandlerRegistry.get("item_user"), syncId);
+        this.entity = null;
         this.inventory = inventory;
 
-        this.addSlot(new Slot(inventory, 0, 80, 30));
+        if (buf != null) {
+            CompoundTag tag = buf.readCompoundTag();
+            this.useOnBlock = tag.getBoolean("use_on_block");
+        }
+
+        this.addSlot(new Slot(inventory, 0, 80, 35));
 
         for (int y = 0; y < 3; ++y) {
             for (int x = 0; x < 9; ++x) {
-                this.addSlot(new Slot(inv, x + y * 9 + 9, 8 + x * 18, 70 + y * 18));
+                this.addSlot(new Slot(inv, x + y * 9 + 9, 8 + x * 18, 90 + y * 18));
             }
         }
         for (int x = 0; x < 9; ++x) {
-            this.addSlot(new Slot(inv, x, 8 + x * 18, 128));
+            this.addSlot(new Slot(inv, x, 8 + x * 18, 148));
         }
 
     }
@@ -81,7 +97,21 @@ public class BlockBreakerScreenHandler extends ScreenHandler {
         }
 
         return newStack;
+    }
 
+    @Override
+    public boolean onButtonClick(PlayerEntity player, int id) {
+        this.useOnBlock = !this.useOnBlock;
+        if (this.entity != null) {
+            this.entity.toggleUseOnBlock();
+            this.entity.markDirty();
+            this.entity.sync();
+        }
+        return super.onButtonClick(player, id);
+    }
+
+    public boolean shouldUseOnBlock() {
+        return this.useOnBlock;
     }
 
 }

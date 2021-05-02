@@ -4,19 +4,25 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.authlib.GameProfile;
+import net.minecraft.block.BlockState;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootGsons;
 import net.minecraft.loot.LootTable;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.network.ServerPlayerInteractionManager;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.world.World;
+import wraith.redutils.block.ItemUserBlock;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.IntStream;
 
 public class Utils {
@@ -79,6 +85,43 @@ public class Utils {
 
     public static IntStream getAvailableSlots(Inventory inventory, Direction side) {
         return inventory instanceof SidedInventory ? IntStream.of(((SidedInventory)inventory).getAvailableSlots(side)) : IntStream.range(0, inventory.size());
+    }
+
+    public static ServerPlayerEntity getFakePlayer(World world, BlockPos pos, BlockState state) {
+        ServerPlayerEntity player = null;
+        if (world != null && !world.isClient) {
+            player = new ServerPlayerEntity(((ServerWorld) world).getServer(), (ServerWorld) world, new GameProfile(UUID.randomUUID(), ""), new ServerPlayerInteractionManager((ServerWorld) world));
+            Direction direction = state.get(ItemUserBlock.FACING);
+            switch (direction) {
+                case UP:
+                    player.yaw = 0;
+                    player.pitch = -90;
+                    break;
+                case DOWN:
+                    player.yaw = 0;
+                    player.pitch = 90;
+                    break;
+                case EAST:
+                    player.yaw = -90;
+                    player.pitch = 0;
+                    break;
+                case WEST:
+                    player.yaw = 90;
+                    player.pitch = 0;
+                    break;
+                case SOUTH:
+                    player.yaw = 0;
+                    player.pitch = 0;
+                    break;
+                case NORTH:
+                    player.yaw = 180;
+                    player.pitch = 0;
+                    break;
+            }
+            BlockPos frontPos = pos.offset(direction);
+            player.setPos(frontPos.getX() + 0.5D, frontPos.getY() - 1.0D, frontPos.getZ() + 0.5D);
+        }
+        return player;
     }
 
 }

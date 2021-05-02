@@ -8,11 +8,12 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.HopperBlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.DirectionProperty;
@@ -29,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import wraith.redutils.Utils;
 import wraith.redutils.registry.ItemRegistry;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BlockBreakerBlock extends BlockWithEntity {
@@ -46,18 +48,21 @@ public class BlockBreakerBlock extends BlockWithEntity {
         if (world.isClient) {
             return;
         }
-        BlockState oldState = state;
+        boolean oldState = state.get(POWERED);
+        boolean newState = false;
         world.setBlockState(pos, state.with(POWERED, false), 2);
         for(Direction direction : Direction.values()) {
             if (direction != state.get(FACING) && world.isEmittingRedstonePower(pos.offset(direction), direction)) {
-                state = state.with(POWERED, true);
-                world.setBlockState(pos, state, 2);
+                newState = true;
                 break;
             }
         }
-        if (!state.get(POWERED) || oldState.get(POWERED)) {
+        if (!newState || oldState) {
+            world.setBlockState(pos, state.with(POWERED, false), 2);
             return;
         }
+        world.setBlockState(pos, state.with(POWERED, true), 2);
+
         BlockPos frontPos = pos.offset(state.get(FACING));
         BlockEntity entity = world.getBlockEntity(pos);
         if (!(entity instanceof BlockBreakerBlockEntity)) {
@@ -72,23 +77,32 @@ public class BlockBreakerBlock extends BlockWithEntity {
 
         boolean isUpgrade = stack.getItem() == ItemRegistry.get("pickaxe_upgrade");
 
-        boolean canMine = stack.getItem().canMine(frontBlockState, world, pos, null);
+        ServerPlayerEntity player = (ServerPlayerEntity) ((BlockBreakerBlockEntity) entity).getPlayer();
+
+        boolean canMine = stack.getItem().canMine(frontBlockState, world, pos, player);
         boolean toolNotRequired = !frontBlockState.isToolRequired();
         boolean isEffectiveOn = isUpgrade || stack.isEffectiveOn(frontBlockState);
         boolean mineable = frontBlockState.getHardness(world, frontPos) >= 0;
 
-        boolean broken = false;
+        player.setStackInHand(Hand.MAIN_HAND, stack);
         if (canMine && mineable && (toolNotRequired || isEffectiveOn)) {
-            broken = world.breakBlock(frontPos, false);
-            if (broken && !isUpgrade && stack.damage(1, Utils.RANDOM, null)) {
-                stack.decrement(1);
+            player.interactionManager.tryBreakBlock(frontPos);
+            //broken = world.breakBlock(frontPos, false);
+            //if (broken && !isUpgrade && stack.damage(1, Utils.RANDOM, null)) {
+            //stack.decrement(1);
+            //}
+            BlockPos backPos = pos.offset(state.get(FACING).getOpposite());
+            Inventory storage = HopperBlockEntity.getInventoryAt(world, backPos);
+            PlayerInventory playerInv = player.inventory;
+            List<ItemStack> items = new ArrayList<>();
+            for (int i = 0; i < playerInv.size(); ++i) {
+                ItemStack playerStack = playerInv.getStack(i);
+                if (playerStack == stack) {
+                    continue;
+                }
+                items.add(playerStack);
             }
-        }
-        BlockPos backPos = pos.offset(state.get(FACING).getOpposite());
-        Inventory storage = HopperBlockEntity.getInventoryAt(world, backPos);
-
-        if (broken) {
-            List<ItemStack> items = Block.getDroppedStacks(frontBlockState, (ServerWorld) world, frontPos, frontEntity);
+            //items.addAll(Block.getDroppedStacks(frontBlockState, (ServerWorld) world, frontPos, frontEntity));
             for (ItemStack item : items) {
                 if (storage != null && !Utils.isInventoryFull(storage, state.get(FACING))) {
                     Utils.transferItem(item, storage);

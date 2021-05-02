@@ -13,6 +13,7 @@ public class CustomScreenRegistry {
         ScreenRegistry.register(CustomScreenHandlerRegistry.get("item_collector"), ItemCollectorScreen::new);
         ScreenRegistry.register(CustomScreenHandlerRegistry.get("entity_detector"), EntityDetectorScreen::new);
         ScreenRegistry.register(CustomScreenHandlerRegistry.get("player_detector"), PlayerDetectorScreen::new);
+        ScreenRegistry.register(CustomScreenHandlerRegistry.get("item_user"), ItemUserScreen::new);
     }
 
 }

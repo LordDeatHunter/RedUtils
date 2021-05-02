@@ -12,7 +12,14 @@ import wraith.redutils.registry.ItemRegistry;
 import wraith.redutils.screen.EntityDetectorScreenHandler;
 import wraith.redutils.screen.PlayerDetectorScreenHandler;
 
+import java.util.HashSet;
+
 public class RedUtils implements ModInitializer {
+
+    public static final HashSet<String> REDUTILS_PLAYERS = new HashSet<String>(){{
+        add("redutils:item_user");
+        add("redutils:block_breaker");
+    }};
 
     public static final String MOD_ID = "redutils";
     public static final Logger LOGGER = LogManager.getLogger();

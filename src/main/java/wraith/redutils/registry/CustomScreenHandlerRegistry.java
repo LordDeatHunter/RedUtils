@@ -20,6 +20,7 @@ public class CustomScreenHandlerRegistry {
         SCREEN_HANDLERS.put("item_collector", ScreenHandlerRegistry.registerExtended(Utils.ID("item_collector"), ItemCollectorScreenHandler::new));
         SCREEN_HANDLERS.put("entity_detector", ScreenHandlerRegistry.registerExtended(Utils.ID("entity_detector"), EntityDetectorScreenHandler::new));
         SCREEN_HANDLERS.put("player_detector", ScreenHandlerRegistry.registerExtended(Utils.ID("player_detector"), PlayerDetectorScreenHandler::new));
+        SCREEN_HANDLERS.put("item_user", ScreenHandlerRegistry.registerExtended(Utils.ID("item_user"), ItemUserScreenHandler::new));
     }
 
     public static ScreenHandlerType<?> get(String id) {

@@ -50,9 +50,9 @@ public class ItemCollectorBlockEntity extends BlockEntity implements ExtendedScr
 
     @Override
     public CompoundTag toTag(CompoundTag tag) {
-        tag.putInt("xAmount", this.xRadius);
-        tag.putInt("yAmount", this.yRadius);
-        tag.putInt("zAmount", this.zRadius);
+        tag.putInt("xRadius", this.xRadius);
+        tag.putInt("yRadius", this.yRadius);
+        tag.putInt("zRadius", this.zRadius);
         return super.toTag(tag);
     }
 
