@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "redutils:block/red_lamp"
+    },
+    "lit=true": {
+      "model": "redutils:block/red_lamp_on"
+    }
+  }
+}

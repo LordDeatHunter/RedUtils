@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "lit=false": {
+      "model": "redutils:block/white_lamp"
+    },
+    "lit=true": {
+      "model": "redutils:block/white_lamp_on"
+    }
+  }
+}
